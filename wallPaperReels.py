@@ -27,9 +27,9 @@ from playwright_stealth import Stealth
 
 
 items_xml=""
-SITE_URL = "https://brahm.github.io/my-wallpapers/" 
+SITE_URL = "https://github.com/abdbaap/AutoWallPaper/tree/main" 
 # The base URL for your raw images on GitHub
-RAW_IMG_BASE = "https://raw.githubusercontent.com/Brahm/my-wallpapers/main/images/"
+RAW_IMG_BASE = "https://raw.githubusercontent.com/abdbaap/AutoWallPaper/main/wallpapers/"
 
 client=genai.Client(api_key=os.getenv("GENAI_API_KEY"))
 print("Client Initialized")
@@ -137,7 +137,7 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
                 filenameForPintrestFeed=os.path.join("wallpapers",f"wallpaper{prompts.index(i)}.jpg")
 
 
-                img_url = f"{RAW_IMG_BASE}{f"wallpaper{prompts.index(i)}.jpg"}"
+                img_url = f"{RAW_IMG_BASE}wallpaper{prompts.index(i)}.jpg"
                 items_xml+=f"""<item>
       <title>MotivationalWallpaper Visit TechVridha.vercel.app For Awesome Blogs Wallpaper No:{prompts.index(i)}</title>
       <link>{SITE_URL}</link>
