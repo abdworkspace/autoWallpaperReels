@@ -26,7 +26,7 @@ from playwright_stealth import Stealth
 
 
 
-items_xml=f""""""
+items_xml=""
 SITE_URL = "https://brahm.github.io/my-wallpapers/" 
 # The base URL for your raw images on GitHub
 RAW_IMG_BASE = "https://raw.githubusercontent.com/Brahm/my-wallpapers/main/images/"
@@ -34,6 +34,7 @@ RAW_IMG_BASE = "https://raw.githubusercontent.com/Brahm/my-wallpapers/main/image
 client=genai.Client(api_key=os.getenv("GENAI_API_KEY"))
 print("Client Initialized")
 def main():
+    global items_xml
     promptForListGeneration = """Generate a JSON array of exactly 10 highly detailed image generation prompts for vertical mobile wallpapers.
 
 Aesthetic & Art Style: Emulate high-end, clean minimalist typography posters. Use flat vector illustrations, smooth cel-shaded anime styles, or stark silhouettes. DO NOT use hyper-realism, 3D, messy textures, or cluttered backgrounds. Focus on massive negative space. The background must be either a bold solid color, a smooth subtle gradient, or a very stripped-down minimalist environment (e.g., a lone mountain, a quiet empty road, or a field of grass).
