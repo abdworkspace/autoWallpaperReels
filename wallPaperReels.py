@@ -31,9 +31,21 @@ SITE_URL = "https://github.com/abdbaap/AutoWallPaper/tree/main"
 # The base URL for your raw images on GitHub
 RAW_IMG_BASE = "https://raw.githubusercontent.com/abdbaap/AutoWallPaper/main/wallpapers/"
 
+
+for file in os.listdir("wallpaper"):
+    os.remove(file)
+
 client=genai.Client(api_key=os.getenv("GENAI_API_KEY"))
 print("Client Initialized")
+
+
+
+
+        
+
 def main():
+
+
     global items_xml
     promptForListGeneration = """Generate a JSON array of exactly 10 highly detailed image generation prompts for vertical mobile wallpapers.
 
@@ -93,7 +105,7 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
                 print(len(safe_prompt))
                 random_seed = random.randint(0, 1000000)
                 
-                image_url = f"https://gen.pollinations.ai/image/{safe_prompt}?width=1080&height=1920&nologo=true&seed={random_seed}&model=klein&key={api_key}"
+                image_url = f"https://gen.pollinations.ai/image/{safe_prompt}?width=1080&height=1920&nologo=true&seed={random_seed}&model=zimage&key={api_key}"
         
                 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
@@ -134,7 +146,7 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
                 # 
                 # 
                 # 
-                filenameForPintrestFeed=os.path.join("wallpapers",f"wallpaper{prompts.index(i)}.jpg")
+                filenameForPintrestFeed=os.path.join("wallpaper",f"wallpaper{prompts.index(i)}.jpg")
 
 
                 img_url = f"{RAW_IMG_BASE}wallpaper{prompts.index(i)}.jpg"
@@ -385,16 +397,33 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
         
 
 
-for _ in range(3): # Run the whole process 3 times
-    main()
-    full_rss = f"""<?xml version="1.0" encoding="UTF-8" ?>
+ # Run the whole process 3 times
+
+
+
+
+main()
+
+
+full_rss = f"""<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
+    <channel>
     <title>TechVridha.vercel.app Wallpapers</title>
     <link>{SITE_URL}</link>
     <description>Latest high-quality wallpapers batch.</description>
     {items_xml}
-  </channel>
-</rss>"""
-    with open("feed.xml", "w") as f:
-        f.write(full_rss)
+    </channel>
+    </rss>"""
+with open("feed.xml", "w") as f:
+    f.write(full_rss)
+
+try:
+
+    commit_msg = f"Auto-update: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    subprocess.run(["git","add","."],check=True)
+    subprocess.run(["git","commit","-m",commit_msg],check=True)
+    subprocess.run(["git","push","origin","main"],check=True)
+    print("Successfully pushed to GitHub!")
+
+except Exception as e:
+    print(Exception)
