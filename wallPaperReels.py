@@ -32,8 +32,7 @@ SITE_URL = "https://abdbaap.github.io/AutoWallPaper/"
 RAW_IMG_BASE = "https://abdbaap.github.io/AutoWallPaper/main/wallpaper/"
 
 
-for file in os.listdir("wallpaper"):
-    os.remove(file)
+# for file in os.listdir("wallsa
 
 client=genai.Client(api_key=os.getenv("GENAI_API_KEY"))
 print("Client Initialized")
