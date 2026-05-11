@@ -145,16 +145,27 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
                 # 
                 # 
                 # 
-                filenameForPintrestFeed=os.path.join("wallpaper",f"wallpaper{prompts.index(i)}.jpg")
 
+# Save images with the date in the filename
+                # FIX 1: Correct the datetime call based on your imports
+                today = datetime.now().strftime("%Y-%m-%d")
+                
+                # FIX 2: Create a unique ID for this specific image
+                unique_id = f"wallpaper_{today}_{prompts.index(i)}"
+                filenameforpintrest = f"{unique_id}.jpg"
+                filenameForPintrestFeed = os.path.join("wallpaper", filenameforpintrest)
 
-                img_url = f"{RAW_IMG_BASE}wallpaper{prompts.index(i)}.jpg"
-                items_xml+=f"""<item>
+                # FIX 3: Update the URL to point to today's uniquely named file, not the old static ones
+                img_url = f"{RAW_IMG_BASE}{filenameforpintrest}"
+                
+                # FIX 4: Add the GUID, unique link anchor, and image/jpeg type
+                items_xml += f"""<item>
       <title>MotivationalWallpaper Visit TechVridha.vercel.app For Awesome Blogs Wallpaper No:{prompts.index(i)}</title>
-      <link>{SITE_URL}</link>
+      <link>{SITE_URL}#{unique_id}</link>
+      <guid isPermaLink="false">techvridha_{unique_id}</guid>
       <description>High quality wallpaper: {i}</description>
       <pubDate>{datetime.now().strftime("%a, %d %b %Y %H:%M:%S +0000")}</pubDate>
-      <media:content url="{img_url}" medium="image" />
+      <media:content url="{img_url}" medium="image" type="image/jpeg" />
     </item>"""
 
                 
@@ -400,10 +411,23 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
 
 
 
-
 main()
 
+# --- NEW: ROLLING FEED LOGIC ---
+existing_items = ""
+try:
+    # Read the current feed to grab old items
+    with open("feed.xml", "r", encoding="utf-8") as f:
+        content = f.read()
+        # Find all existing <item> blocks using regex
+        matches = re.findall(r'<item>.*?</item>', content, re.DOTALL)
+        # Keep only the newest 40 old items (so with today's 10, we have 50 total)
+        existing_items = "\n".join(matches[:40])
+except FileNotFoundError:
+    # If feed.xml doesn't exist yet, just continue
+    pass
 
+# Combine today's items (items_xml) with the old items (existing_items)
 full_rss = f"""<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
@@ -411,18 +435,19 @@ full_rss = f"""<?xml version="1.0" encoding="UTF-8" ?>
     <link>{SITE_URL}</link>
     <description>Latest high-quality wallpapers batch.</description>
     {items_xml}
+    {existing_items}
     </channel>
-    </rss>"""
-with open("feed.xml", "w") as f:
+</rss>"""
+
+with open("feed.xml", "w", encoding="utf-8") as f:
     f.write(full_rss)
 
 try:
-
-    commit_msg = f"Auto-update: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    commit_msg = f"Auto-update: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
     subprocess.run(["git","add","."],check=True)
     subprocess.run(["git","commit","-m",commit_msg],check=True)
     subprocess.run(["git","push","origin","main"],check=True)
     print("Successfully pushed to GitHub!")
 
 except Exception as e:
-    print(Exception)
+    print(e)
