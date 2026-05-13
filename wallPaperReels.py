@@ -29,7 +29,7 @@ from playwright_stealth import Stealth
 items_xml=""
 SITE_URL = "https://abdbaap.github.io/AutoWallPaper/" 
 # The base URL for your raw images on GitHub
-RAW_IMG_BASE = "https://abdbaap.github.io/AutoWallPaper/main/wallpaper/"
+RAW_IMG_BASE = "https://abdbaap.github.io/AutoWallPaper/wallpaper/"
 
 
 # for file in os.listdir("wallsa
@@ -410,9 +410,10 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
  # Run the whole process 3 times
 
 
-
-main()
-
+try:
+    main()
+except:
+    print("Error Occured In Making Images And UploadingTO Instagram")
 # --- NEW: ROLLING FEED LOGIC ---
 existing_items = ""
 try:
