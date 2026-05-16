@@ -190,35 +190,22 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
 
                 a=str({random.randint(1, 3)}) 
                 ffmpeg_cmd = [
-    'ffmpeg', '-y', 
-    
-    # --- INPUTS ---
-    # Input 0: Intro image (1 second)
-    '-loop', '1', '-t', '1', '-i', filename,  
-    # Input 1: Main image (5 seconds)
-    f'-loop', '1', '-t',"1" , '-i', intro_file,    
-    # Input 2: NEW Third image (adjust duration '-t' as needed)
-    f'-loop', '1', '-t',"2", '-i', filename,  
-    # Input 3: Audio file (Notice this moved from index 2 to 3)
-    '-i', audio_path,                           
+    'ffmpeg',
+    '-y',
+    '-loop', '1',
+    '-t', '3',
+    '-i', filename,
+    '-i', audio_path,
+    '-filter_complex', '[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[v]',
+    '-map', '[v]',
+    '-map', '1:a',
     '-map_metadata', '-1',
-    # --- FILTERS ---
-    '-filter_complex', 
-    # Scale and crop Input 0
-    '[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[v0];'
-    # Scale and crop Input 1
-    '[1:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[v1];'
-    # Scale and crop Input 2 (The new image)
-    '[2:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[v2];'
-    # Concatenate all 3 video streams (n=3) into one output [v]
-    '[v0][v1][v2]concat=n=3:v=1:a=0[v]',
-    
-    # --- MAPPING & ENCODING ---
-    '-map', '[v]',                              # Map the concatenated video stream
-    '-map', '3:a',                              # Map the audio from Input 3
-    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
-    '-c:a', 'aac', '-b:a', '192k',              
-    '-shortest',                                # End output when the shortest stream ends
+    '-c:v', 'libx264',
+    '-pix_fmt', 'yuv420p',
+    '-r', '30',
+    '-c:a', 'aac',
+    '-b:a', '192k',
+    '-shortest',
     video_filename
 ]
                 try:
