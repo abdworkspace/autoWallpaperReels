@@ -92,7 +92,12 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
             stealth.apply_stealth_sync(context)
             page = context.new_page()
     
+            listOfAllBlogs=requests.get("https://techvridha.vercel.app/getlistofallblogs")
+            text=listOfAllBlogs.json()
             for i in prompts:
+                captionsToFill=f'''New Blog Available At https://techvridha.vercel.app/ {(random.choice(text["listofallBlogs"]))["description"]}'''
+
+
                 api_key="sk_aHtpw0Iv5BvrwjEN9A2BANRXGDzbV47x"
                 # This removes all hidden newlines (\n) and tabs that trigger Cloudflare
                 clean_prompt = re.sub(r'\s+', ' ', i).strip()
@@ -160,10 +165,10 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
                 
                 # FIX 4: Add the GUID, unique link anchor, and image/jpeg type
                 items_xml += f"""<item>
-      <title>MotivationalWallpaper Visit TechVridha.vercel.app For Awesome Blogs Wallpaper No:{prompts.index(i)}</title>
+      <title>{captionsToFill}</title>
       <link>{SITE_URL}#{unique_id}</link>
       <guid isPermaLink="false">techvridha_{unique_id}</guid>
-      <description>High quality wallpaper: {i}</description>
+      <description>High quality wallpaper: {i.replace("--ar 9:16","").replace("dalle","")}</description>
       <pubDate>{datetime.now().strftime("%a, %d %b %Y %H:%M:%S +0000")}</pubDate>
       <media:content url="{img_url}" medium="image" type="image/jpeg" />
     </item>"""
@@ -191,12 +196,12 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
     # Input 0: Intro image (1 second)
     '-loop', '1', '-t', '1', '-i', filename,  
     # Input 1: Main image (5 seconds)
-    f'-loop', '1', '-t',"2" , '-i', intro_file,    
+    f'-loop', '1', '-t',"1" , '-i', intro_file,    
     # Input 2: NEW Third image (adjust duration '-t' as needed)
-    f'-loop', '1', '-t',"4", '-i', filename,  
+    f'-loop', '1', '-t',"2", '-i', filename,  
     # Input 3: Audio file (Notice this moved from index 2 to 3)
     '-i', audio_path,                           
-    
+    '-map_metadata', '-1',
     # --- FILTERS ---
     '-filter_complex', 
     # Scale and crop Input 0
@@ -240,9 +245,7 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
         
                 except:
                     print("There Was No Notification Related To Notification")
-                listOfAllBlogs=requests.get("https://techvridha.vercel.app/getlistofallblogs")
-                text=listOfAllBlogs.json()
-                captionsToFill=f'''New Blog Available At https://techvridha.vercel.app/ {(random.choice(text["listofallBlogs"]))["description"]}'''
+                
             
 
                 try:
