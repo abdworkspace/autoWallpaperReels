@@ -87,7 +87,7 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
     with sync_playwright() as p:
             browser = p.chromium.launch(headless=False)
             
-            context = browser.new_context(storage_state="oldinstaAuthForSteamReels.json", color_scheme="dark")
+            context = browser.new_context(storage_state="oldinstaAuth3.json", color_scheme="dark")
             stealth=Stealth()
             stealth.apply_stealth_sync(context)
             page = context.new_page()
