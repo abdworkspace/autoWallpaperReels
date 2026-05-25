@@ -126,7 +126,7 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
                         
                             print(f"❌ API error: {response.status_code} | {error_details}")
                             continue
-                    # FIX 2: Use continue, not return, so it doesn't stop the whole job
+                    # FIX 2: Use , not return, so it doesn't stop the whole job
 
                             
         
@@ -236,164 +236,188 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
             
 
                 try:
+                
+                    page.get_by_role("button", name="close").hover()
+                    time.sleep(random.uniform(0,5.9))
+                    page.get_by_role("button", name="close").click()
+                except:
+                    print("There Was No Notification Related To Notification")
+                try:
+                    
+                    page.get_by_role("button", name="Turn On").hover()
+                    time.sleep(random.uniform(0,5.9))
+                    page.get_by_role("button", name="Turn On").click()
+                
+                except:
+                    print("There Was No Notification Related To Notification")
+
+
+                    
+             
+                try:
                     page.get_by_role("link", name="New post").hover()
-                    time.sleep(random.randint(1,3))
+                    time.sleep(random.uniform(3.5, 7.2)) # For standard button clicks
+
                     print("Clicked On New Post")
                 except Exception as e:
                     print(f"Error clicking New post: {e}")
-     
+        
                 try:
+                    
+                    clickonCreate = page.get_by_role("link", name="New post Create").hover()
+                    time.sleep(random.uniform(0,5.9))
                     clickonCreate = page.get_by_role("link", name="New post Create").click()
-                    time.sleep(random.randint(1,3))
+                    time.sleep(random.uniform(5.5, 12.0))
                     print("Clicked New post Create")
                 except Exception as e:
-                        print(f"Error clicking New post Create: {e}")
-                        continue
+                    print(f"Error clicking New post Create: {e}")
+                    
 
                 try:
+                    
+                    clickOnCreatePost = page.get_by_role("link", name="Post Post").hover()
+                    time.sleep(random.uniform(0,5.9))
                     clickOnCreatePost = page.get_by_role("link", name="Post Post").click()
-                    time.sleep(random.randint(1,3))
+                    time.sleep(random.uniform(3.5, 7.2)) # For standard button clicks
+
                     print("Clicked Post Post")
                 except Exception as e:
                     print(f"Error clicking Post Post: {e}")
-                    continue
+                    
 
                 try:
                     with page.expect_file_chooser() as fc_info:
+                        
+                        page.get_by_role("button", name="Select from computer").hover()
+                        time.sleep(random.uniform(0,5.9))
                         page.get_by_role("button", name="Select from computer").click()
-                        time.sleep(random.randint(1,3))
+                        time.sleep(random.uniform(5.5, 12.0))
                     file_chooser = fc_info.value
-                    file_chooser.set_files(video_filename)
-                    print(f"Selected file {video_filename}")
+                    file_chooser.set_files(reels)
+                    print(f"Selected file {reels}")
                 except Exception as e:
                     print(f"Error selecting file: {e}")
-                    continue
+                    
 
                 try:
-                    if prompts.index(i)==0:
+                    if reelsToUpload.index(reels)==0:
+                        
+                        clickingOnOk = page.get_by_role("button", name="OK").hover()
+                        time.sleep(random.uniform(0,5.9))
                         clickingOnOk = page.get_by_role("button", name="OK").click()
-                        time.sleep(random.randint(1,3))
+                        time.sleep(random.uniform(3.5, 7.2)) # For standard button clicks
+
                         print("Clicked OK")
                 except Exception as e:
                     print(f"Error clicking OK: {e}")
-                    continue
+                    
 
                 try:
+                    
+                    clickingOnCrop = page.locator("button").filter(has_text="Select crop").hover()
+                    time.sleep(random.uniform(0,5.9))
                     clickingOnCrop = page.locator("button").filter(has_text="Select crop").click()
-    
-                    time.sleep(random.randint(1,3))
+        
+                    time.sleep(random.uniform(5.5, 12.0))
                     print("Clicked Select crop")
                 except Exception as e:
                     print(f"Error clicking Select crop: {e}")
-                    continue
+                    
 
                 try:
+                    
+                    clickingonOriginalSize =  page.get_by_role("button", name="Original Photo outline icon").hover()
+                    time.sleep(random.uniform(0,5.9))
                     clickingonOriginalSize =  page.get_by_role("button", name="Original Photo outline icon").click()
-                    time.sleep(random.randint(1,3))
+                    time.sleep(random.uniform(3.5, 7.2)) # For standard button clicks
+
                     print("Clicked Original size")
                 except Exception as e:
                     print(f"Error clicking Original size: {e}")
-                    continue
+                    
 
                 try:
+                    
+                    clickingonNext = page.locator("div").filter(has_text=re.compile(r"^Next$")).nth(1).hover()
+                    time.sleep(random.uniform(0,5.9))
                     clickingonNext = page.locator("div").filter(has_text=re.compile(r"^Next$")).nth(1).click()
-                    time.sleep(random.randint(1,3))
+                    time.sleep(random.uniform(5.5, 12.0))
                     print("Clicked Next (first)")
                 except Exception as e:
                     print(f"Error clicking Next (first): {e}")
-                    continue
+                    
 
                 try:
+                    
+                    clickingOnAnotherNext = page.locator("div").filter(has_text=re.compile(r"^Next$")).nth(1).hover()
+                    time.sleep(random.uniform(0,5.9))
                     clickingOnAnotherNext = page.locator("div").filter(has_text=re.compile(r"^Next$")).nth(1).click()
-                    time.sleep(random.randint(1,3))
+                    time.sleep(random.uniform(3.5, 7.2)) # For standard button clicks
+
                     print("Clicked Next (second)")
                 except Exception as e:
                     print(f"Error clicking Next (second): {e}")
-                    continue
+                    
 
                 try:
                     captions = page.get_by_role("textbox", name="Write a caption...")
-                    time.sleep(random.randint(1,3))
+                    time.sleep(random.uniform(5.5, 12.0))
+                    
+                    captions.hover()
+                    time.sleep(random.uniform(0,5.9))
                     captions.click()
-                    page.keyboard.insert_text(captionsToFill)
+                    captions.type(captionsToFill, delay=random.randint(50, 150))
                     print("Inserted caption")
                 except Exception as e:
                     print(f"Error writing caption: {e}")
-                    continue
+                    
 
                 try:
+                    
+                    clickingOnShareButton = page.get_by_role("button", name="Share", exact=True).hover()
+                    time.sleep(random.uniform(0,5.9))
                     clickingOnShareButton = page.get_by_role("button", name="Share", exact=True).click()
-                    time.sleep(random.randint(1,3))
+                    
+                    time.sleep(random.uniform(5.5, 12.0))
                     print("Clicked Share")
                 except Exception as e:
                     print(f"Error clicking Share: {e}")
-                    continue            
+                                
+
+                # 2. Wait dynamically for the upload to finish (up to 4 minutes)
                 try:
-                    print("Uploading Image To Pintrest Also")
-                    url = "https://api-sandbox.pinterest.com/v5/pins"
-                    headers={
-                        "Authorization": f"Bearer {os.getenv('pintrest_Token')}",
-                        "Content-Type": "application/json"
-                    }
-
-                    
-                    with open(filename ,"rb") as image_file:
-                        encoded_string=base64.b64encode(image_file.read()).decode('utf-8')
-
-
-
-
-
-                    payload={
-                        "title":"Visit techvridha.vercel.app for awesome blogs which can change your life and help you in finishing impossible tasks.",
-                        "description":captionsToFill,
-                        "board_id":os.getenv("Board_Id"),
-                        "media_source":{
-                            "source_type":"image_base64",
-                            "content_type":"image/jpeg",
-                            "data":encoded_string
-                        },
-                        "link":"https://techvridha.vercel.app/"
-                    }
-
-                    response=requests.post(url,headers=headers,data=json.dumps(payload))
-
-                    if response.status_code == 201:
-                        print("Success! Pin created.")
-                    else:
-                        print(f"Failed: {response.status_code}")
-                        print(response.text)
-                    
-
-
-
-                except Exception as e:
-                    print(f"Error uploading to  Pinterest : {e}")
-                    
-            # 2. Wait dynamically for the upload to finish (up to 4 minutes)
-                try:
-                # Instagram shows this exact text when the upload is truly finished.
-                # We give it 240,000 milliseconds (4 minutes) to appear.
+                    # Instagram shows this exact text when the upload is truly finished.
+                    # We give it 240,000 milliseconds (4 minutes) to appear.
                     page.locator("text=Your reel has been shared.").wait_for(timeout=300000)
                     print("✅ Upload confirmed by Instagram!")
-                    os.remove(filename)
-                    os.remove(video_filename)
+                    os.remove(reels)
                     try:
                         reelClose=page.get_by_role("button", name="Close")
+                        
+                        reelClose.hover()
+                        time.sleep(random.uniform(0,5.9))
                         reelClose.click()
-                        time.sleep(random.randint(1,3))
+                        time.sleep(random.uniform(3.5, 7.2)) # For standard button clicks
+
                         page.goto("https://instagram.com")
                         print("Went TO Instagram")
                         print("Reel Uploaded SuccessFully")
-                        time.sleep(random.randint(1,3))
+                        time.sleep(random.uniform(3.5, 7.2)) # For standard button clicks
+
                     except:
-                
+                    
                         print("Unable To Find CLose Button")
                 except Exception as e:
                     print("❌ Timeout waiting for success message. It took too long or failed.")
                     page.reload() # Refresh to clear the stuck upload screen
-                    continue #
+                     #
+                time.sleep(random.randint(9,30))
+                
+                time.sleep(5)
+                print("Navigating Back To Instgarm")
+              
                 time.sleep(random.randint(1,5))
+                 #
         
 
 
@@ -415,7 +439,7 @@ try:
         # Keep only the newest 40 old items (so with today's 10, we have 50 total)
         existing_items = "\n".join(matches[:40])
 except FileNotFoundError:
-    # If feed.xml doesn't exist yet, just continue
+    # If feed.xml doesn't exist yet, just 
     pass
 
 # Combine today's items (items_xml) with the old items (existing_items)
