@@ -293,14 +293,14 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
                         page.get_by_role("button", name="Select from computer").click()
                         time.sleep(random.uniform(5.5, 12.0))
                     file_chooser = fc_info.value
-                    file_chooser.set_files(reels)
-                    print(f"Selected file {reels}")
+                    file_chooser.set_files(video_filename)
+                    print(f"Selected file {video_filename}")
                 except Exception as e:
                     print(f"Error selecting file: {e}")
                     
 
                 try:
-                    if reelsToUpload.index(reels)==0:
+                    if prompts.index(i)==0:
                         
                         clickingOnOk = page.get_by_role("button", name="OK").hover()
                         time.sleep(random.uniform(0,5.9))
@@ -390,7 +390,7 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
                     # We give it 240,000 milliseconds (4 minutes) to appear.
                     page.locator("text=Your reel has been shared.").wait_for(timeout=300000)
                     print("✅ Upload confirmed by Instagram!")
-                    os.remove(reels)
+                    os.remove(video_filename)
                     try:
                         reelClose=page.get_by_role("button", name="Close")
                         
