@@ -10,7 +10,8 @@ import base64
 import re
 # from moviepy import VideoFileClip, concatenate_videoclips
 # import shutil
-from datetime import datetime
+from datetime import datetime 
+from datetime import timezone,timedelta
 import random
 # import yt_dlp
 import subprocess
@@ -186,7 +187,19 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
                 audio_path="wallpaper.mp3"
 
                 intro_file="intro.png"
+                phone_profiles = [
+        {"make": "Apple", "model": "iPhone 15 Pro", "software": "17.4.1"},
+        {"make": "Apple", "model": "iPhone 14 Pro Max", "software": "17.3"},
+        {"make": "Apple", "model": "iPhone 13", "software": "16.6"},
+        {"make": "Samsung", "model": "SM-S918B", "software": "Android 14"}, # S23 Ultra
+        {"make": "Google", "model": "Pixel 8 Pro", "software": "Android 14"}
+    ]
+    
+                device = random.choice(phone_profiles)
 
+    # 2. Generate a fake recording time (e.g., recorded somewhere between 5 to 120 minutes ago)
+                minutes_ago = random.randint(5, 120)
+                fake_time = (datetime.now(timezone.utc) - timedelta(minutes=minutes_ago)).strftime('%Y-%m-%dT%H:%M:%S.000000Z')
 
                 a=str({random.randint(1, 3)}) 
                 ffmpeg_cmd = [
@@ -199,7 +212,11 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
     '-filter_complex', '[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[v]',
     '-map', '[v]',
     '-map', '1:a',
-    '-map_metadata', '-1',
+    '-metadata', f'creation_time={fake_time}',
+        '-metadata', f'make={device["make"]}',
+        '-metadata', f'model={device["model"]}',
+        '-metadata', f'software={device["software"]}',
+        '-metadata', 'encoder=Lavf59.27.100',
     '-c:v', 'libx264',
     '-pix_fmt', 'yuv420p',
     '-r', '30',
