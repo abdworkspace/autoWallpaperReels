@@ -28,9 +28,9 @@ from playwright_stealth import Stealth
 
 
 items_xml=""
-SITE_URL = "https://abdbaap.github.io/AutoWallPaper/" 
+SITE_URL = "https://abdworkspace.github.io/autoWallpaperReels/" 
 # The base URL for your raw images on GitHub
-RAW_IMG_BASE = "https://abdbaap.github.io/AutoWallPaper/wallpaper/"
+RAW_IMG_BASE = "https://abdworkspace.github.io/autoWallpaperReels/wallpaper/"
 
 
 # for file in os.listdir("wallsa
