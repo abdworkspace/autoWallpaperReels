@@ -443,8 +443,8 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
 
 try:
     main()
-except:
-    print("Error Occured In Making Images And UploadingTO Instagram")
+except Exception as e:
+    print(f"Error Occured In Making Images And UploadingTO Instagram: {e}")
 # --- NEW: ROLLING FEED LOGIC ---
 existing_items = ""
 try:
