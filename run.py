@@ -110,7 +110,7 @@ Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k res
                 print(len(safe_prompt))
                 random_seed = random.randint(0, 1000000)
                 
-                image_url = f"https://gen.pollinations.ai/image/{safe_prompt}?width=1080&height=1920&nologo=true&seed={random_seed}&model=zimage&key={api_key}"
+                image_url = f"https://gen.pollinations.ai/image/{safe_prompt}?width=1080&height=1920&nologo=true&seed={random_seed}&model=flux&key={api_key}"
         
                 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
