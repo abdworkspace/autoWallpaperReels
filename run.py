@@ -37,6 +37,140 @@ RAW_IMG_BASE = "https://abdworkspace.github.io/autoWallpaperReels/wallpaper/"
 
 client=genai.Client(api_key=os.getenv("GENAI_API_KEY"))
 print("Client Initialized")
+festival_messages={
+  "republicday": [
+    "Good morning {{Name}}! Wishing you a very Happy Republic Day. Here's to celebrating the spirit of our nation, today and always. 🇮🇳",
+    "{{Name}}, this Republic Day, we have something special waiting for you. Visit us and discover pieces that celebrate every woman's pride.",
+    "Happy Republic Day, {{Name}}! Enjoy [X]% off on select pieces at [Boutique Name], because you deserve to feel special too.",
+    "{{Name}}, freedom looks good on you. Explore our new arrivals this Republic Day and pick a look that's truly yours.",
+    "This Republic Day, {{Name}}, we're celebrating every woman who stands tall in her own way. Come treat yourself to something beautiful.",
+    "{{Name}}, our Republic Day edit is here. Limited pieces, timeless style. Visit us before your favourites are gone.",
+    "Happy Republic Day, {{Name}}! May you always wear your confidence as beautifully as you wear our outfits. 🇮🇳",
+    "{{Name}}, celebrate the tricolour spirit with us. Special prices, only for a few days.",
+    "On this special day, {{Name}}, we're grateful to have you with us. Thank you for your trust and support.",
+    "{{Name}}, last day of our Republic Day specials! Don't miss your chance to shop your favourites."
+  ],
+  "Maha Shivaratri": [
+    "{{Name}}, wishing you peace and blessings this Maha Shivaratri. May Lord Shiva bless you with strength and serenity. 🙏",
+    "Har Har Mahadev, {{Name}}! Sending you warm wishes on this sacred night.",
+    "{{Name}}, for your Maha Shivaratri puja, we have a small collection of simple, elegant pieces. Do take a look.",
+    "This Maha Shivaratri, {{Name}}, may all your prayers be answered. Wishing you calm and countless blessings.",
+    "{{Name}}, heading to the temple this Maha Shivaratri? Our soft cotton sarees make for a comfortable, graceful choice.",
+    "Wishing you a blessed Maha Shivaratri, {{Name}}. May this sacred day bring positivity into your life.",
+    "{{Name}}, some occasions call for simplicity. Our understated ethnic pieces are made for days like this.",
+    "Om Namah Shivaya, {{Name}}. Sending you warmth and good wishes on this holy night.",
+    "{{Name}}, thank you for being part of our family. On this Maha Shivaratri, we wish you peace and wellbeing.",
+    "{{Name}}, may Lord Shiva's blessings stay with you always. Happy Maha Shivaratri from [Boutique Name]."
+  ],
+  "Holi": [
+    "Happy Holi, {{Name}}! 🌈 Wishing you a festival full of colour, laughter and beautiful memories.",
+    "{{Name}}, Holi calls for colour, and so does your wardrobe. Check out our vibrant new collection made for the season.",
+    "{{Name}}, planning a Holi brunch or get-together? Our pastel and white co-ord sets are perfect for looking effortlessly pretty.",
+    "This Holi, {{Name}}, add a splash of colour to your closet. New arrivals now in store!",
+    "{{Name}}, celebrate Holi in style! Enjoy [X]% off our festive collection, for a few days only.",
+    "Holi Hai, {{Name}}! 🎉 May your life always be as colourful and joyful as this beautiful festival.",
+    "{{Name}}, once the colours settle, it's time to dress up. Our post-Holi party wear collection is here.",
+    "{{Name}}, we handpicked a few pieces just for you this Holi. Come see what caught our eye.",
+    "Wishing you and your loved ones a very Happy Holi, {{Name}}. May this festival bring joy that lasts all year.",
+    "{{Name}}, our Holi specials end soon. Grab your favourite colourful pieces before they're gone."
+  ],
+  "Ram Navami": [
+    "{{Name}}, wishing you a blessed Ram Navami. May Lord Rama's blessings bring peace to your home. 🙏",
+    "Jai Shri Ram, {{Name}}! Sending you warm wishes on this auspicious day.",
+    "{{Name}}, celebrating Ram Navami with a puja or temple visit? Our elegant traditional wear is perfect for the occasion.",
+    "This Ram Navami, {{Name}}, may your life be filled with truth, courage and devotion.",
+    "{{Name}}, a small, thoughtful collection for Ram Navami is now at [Boutique Name]. Simple, graceful pieces for a special day.",
+    "Wishing you and your family a peaceful Ram Navami, {{Name}}. 🙏",
+    "{{Name}}, some days call for quiet elegance. Explore pieces made for occasions like this.",
+    "Happy Ram Navami, {{Name}}! May this day bring you closer to everything good in life.",
+    "{{Name}}, thank you for trusting us with your special moments. Wishing you a blessed Ram Navami.",
+    "{{Name}}, may Lord Rama's blessings be with you always. Happy Ram Navami from [Boutique Name]."
+  ],
+  "Buddha Purnima": [
+    "{{Name}}, wishing you peace, light and wisdom this Buddha Purnima. 🙏",
+    "On this Buddha Purnima, {{Name}}, may you find a moment of calm in your busy life.",
+    "{{Name}}, Lord Buddha taught us that true beauty comes from within. Wishing you peace on this sacred day.",
+    "May the light of wisdom guide you always, {{Name}}. Happy Buddha Purnima.",
+    "{{Name}}, wishing you and your loved ones a peaceful, reflective Buddha Purnima.",
+    "This Buddha Purnima, {{Name}}, we simply wish you calm, clarity and quiet joy.",
+    "{{Name}}, for the moments that call for simplicity, our softest pieces are here whenever you need them.",
+    "Wishing you inner peace this Buddha Purnima, {{Name}}. 🙏",
+    "{{Name}}, thank you for being part of our story. Sending you calm and gratitude today.",
+    "May you always walk the path of peace, {{Name}}. Happy Buddha Purnima from [Boutique Name]."
+  ],
+  "Independence Day": [
+    "Happy Independence Day, {{Name}}! 🇮🇳 Wishing you pride, joy and freedom in everything you do.",
+    "{{Name}}, freedom never goes out of style. Celebrate with our new collection, made for the woman who knows her mind.",
+    "This Independence Day, {{Name}}, enjoy [X]% off on select styles. Our little way of celebrating you.",
+    "{{Name}}, here's to the freedom to choose your own style, always. Happy Independence Day!",
+    "Jai Hind, {{Name}}! Wishing you and your family a very Happy Independence Day.",
+    "{{Name}}, our Independence Day edit is live: fresh styles, festive spirit. Come take a look.",
+    "{{Name}}, celebrate the 15th of August in style. Limited-time offers, only this week.",
+    "This Independence Day, {{Name}}, we're celebrating every woman who wears her confidence proudly. That includes you.",
+    "{{Name}}, thank you for choosing us on this journey. Happy Independence Day from all of us.",
+    "{{Name}}, our Independence Day specials end soon. Don't miss your favourite picks!"
+  ],
+  "Janmashtami (Vaishnava)": [
+    "{{Name}}, wishing you a joyful Janmashtami. May Lord Krishna's blessings fill your home with love. 🦚",
+    "Radhe Radhe, {{Name}}! Sending you warm wishes on this beautiful day.",
+    "{{Name}}, celebrating Janmashtami with a midnight puja? Our elegant ethnic pieces are perfect for the occasion.",
+    "This Janmashtami, {{Name}}, may your life be as colourful and joyful as Krishna's own stories.",
+    "{{Name}}, a special Janmashtami collection awaits you at [Boutique Name]. Graceful pieces for a devotional day.",
+    "Happy Janmashtami, {{Name}}! Wishing you and your family peace, love and prosperity.",
+    "{{Name}}, dress up for the celebrations. New arrivals, made for the occasion.",
+    "Jai Shri Krishna, {{Name}}! May this festival bring you closer to all that you love.",
+    "{{Name}}, thank you for being part of our journey. Wishing you a beautiful Janmashtami.",
+    "{{Name}}, may Krishna's flute bring melody to your life. Happy Janmashtami from [Boutique Name]."
+  ],
+  "Dussehra": [
+    "Happy Dussehra, {{Name}}! 🏹 Wishing you victory over every challenge, today and always.",
+    "{{Name}}, Dussehra marks new beginnings. What better way to start than with a new outfit? Explore our collection today.",
+    "This Vijayadashami, {{Name}}, they say it's auspicious to buy something new. We have just the pieces for you.",
+    "{{Name}}, celebrate the win of good over evil with a look that makes you feel unstoppable. Happy Dussehra!",
+    "{{Name}}, our Dussehra collection is here: bold colours, graceful silhouettes, made to celebrate you.",
+    "Wishing you strength, courage and joy this Dussehra, {{Name}}. 🙏",
+    "{{Name}}, enjoy [X]% off this Dussehra season, because new beginnings deserve a beautiful start.",
+    "{{Name}}, may this Dussehra burn away every worry and bring you closer to your dreams.",
+    "{{Name}}, only a few days left of our Dussehra specials. Come pick your favourites before they're gone!",
+    "Happy Vijayadashami, {{Name}}! Thank you for letting us be part of your celebrations, year after year."
+  ],
+  "Diwali (Deepavali)": [
+    "Dear {{Name}}, wishing you a Diwali as bright and beautiful as you are. May this festival of lights bring joy and new beginnings. ✨",
+    "{{Name}}, our new Diwali collection has arrived! Rich colours, fine fabrics and pieces made to make you shine this season. 🪔",
+    "{{Name}}, you're invited first! Our Diwali edit opens for our valued customers before anyone else. Come pick your favourites.",
+    "{{Name}}, celebrate Diwali in style. Enjoy [X]% off our festive collection, only until [date].",
+    "{{Name}}, not sure what to wear this Diwali? Visit us and we'll help you find the perfect look, handpicked for you.",
+    "{{Name}}, Diwali is also about gifting the people you love. Looking for something special for your mom, sister or best friend? We have you covered.",
+    "{{Name}}, thank you for being part of our journey. This Diwali, we have something special just for you.",
+    "{{Name}}, only a few days left for Diwali! If you haven't picked your outfit yet, now's the time.",
+    "{{Name}}, Diwali is almost here. Have you found your outfit yet? Let's find the one that makes you feel your best.",
+    "{{Name}}, may this Diwali bring you and your family happiness, good health and prosperity. Happy Diwali from [Boutique Name]! 🪔✨"
+  ],
+  "Guru Nanak's Birthday": [
+    "{{Name}}, wishing you a blessed Gurpurab. May Guru Nanak Dev Ji's teachings of love and equality guide us all. 🙏",
+    "Happy Guru Nanak Jayanti, {{Name}}! Wishing you and your family peace and happiness.",
+    "{{Name}}, visiting the Gurdwara this Gurpurab? Our simple, elegant pieces are perfect for the day.",
+    "This Prakash Purab, {{Name}}, may your life be filled with light, humility and kindness.",
+    "{{Name}}, wishing you a peaceful and joyful Gurpurab, surrounded by loved ones.",
+    "Sat Sri Akal, {{Name}}! Sending you warm wishes on this holy day.",
+    "{{Name}}, a small collection of graceful pieces awaits you at [Boutique Name], perfect for the celebrations ahead.",
+    "Happy Gurpurab, {{Name}}! May Guru Nanak's blessings stay with you always.",
+    "{{Name}}, thank you for being part of our journey. Wishing you a beautiful Gurpurab.",
+    "{{Name}}, may this Gurpurab bring you peace, light and togetherness. Warm wishes from [Boutique Name]."
+  ],
+  "Christmas": [
+    "Merry Christmas, {{Name}}! 🎄 Wishing you a season full of warmth, love and sparkle.",
+    "{{Name}}, our Christmas collection is here: sequins, velvet and all things festive. Perfect for your celebrations!",
+    "{{Name}}, planning your Christmas party look? We've handpicked pieces that will make you shine this season.",
+    "This Christmas, {{Name}}, gift yourself something beautiful. You deserve it.",
+    "{{Name}}, enjoy [X]% off our festive edit this Christmas. Limited time only!",
+    "{{Name}}, looking for the perfect Christmas gift for someone special? Our collection has something for everyone.",
+    "Ho Ho Ho, {{Name}}! Wishing you a Merry Christmas filled with joy and beautiful moments.",
+    "{{Name}}, our Christmas specials are almost gone. Grab your favourites before they're sold out!",
+    "{{Name}}, thank you for making this year special for us. Wishing you a very Merry Christmas.",
+    "{{Name}}, may your Christmas be as bright and beautiful as you are. Warm wishes from all of us at [Boutique Name]. 🎄✨"
+  ]
+}
 
 
 
@@ -47,41 +181,48 @@ def main():
 
 
     global items_xml
-    promptForListGeneration = """Generate a JSON array of exactly 10 highly detailed image generation prompts for vertical mobile wallpapers.
+    occasions = list(festival_messages.keys()) + ["Birthday"]
 
-Aesthetic & Art Style: Emulate high-end, clean minimalist typography posters. Use flat vector illustrations, smooth cel-shaded anime styles, or stark silhouettes. DO NOT use hyper-realism, 3D, messy textures, or cluttered backgrounds. Focus on massive negative space. The background must be either a bold solid color, a smooth subtle gradient, or a very stripped-down minimalist environment (e.g., a lone mountain, a quiet empty road, or a field of grass).
-
-Character & Composition: Re-imagine iconic characters (Shinchan, Doraemon, Ash Ketchum) or badass archetypes (Samurai, Bikers, Streetwear icons) in a disciplined, streetwear, or stoic aesthetic. The character must be placed in the lower half of the image. CRITICAL: The character's height MUST NOT exceed 40% of the total vertical canvas, leaving the top half completely empty for text. Maintain extremely clean, sharp, professional lines with no glitches.
-
-Typography & Quotes (CRITICAL - NO REPEATS): Each prompt must specifically describe a unique, punchy quote integrated clearly into the upper negative space. To prevent the AI from generating the same generic quotes over and over, you MUST derive the 10 quotes using this exact sequence of themes:
-1. Japanese Zen proverb
-2. Modern streetwear/hypebeast one-liner
-3. Ancient Stoicism (Marcus Aurelius/Seneca vibe)
-4. Cyberpunk/Futuristic grit
-5. Minimalist focus/mindfulness
-6. Hardcore Hustle/Discipline
-7. Humorous/Chill vibe (e.g., "Peace Bro")
-8. Warrior/Samurai ethos
-9. Urban street poetry
-10. Abstract one-word motivation
-
-For each quote, describe the exact font style (e.g., bold sans-serif, rough brush script, elegant minimal serif) and text color to ensure it contrasts perfectly with the clean background.
-
-Format Rules: Return ONLY a valid JSON array of strings formatted exactly like this: ["detailed prompt 1", "detailed prompt 2"]. Do NOT wrap the array in objects, do NOT include markdown formatting like ```json, and do NOT include any conversational text. 
-
-Within each string, end with technical tags like: --ar 9:16, masterpiece, 8k resolution, minimalist poster design, crisp typography, clean solid background, flawless text rendering, vector art style, negative space."""
-    promptsList=client.models.generate_content(
-        model="gemini-2.5-flash-lite",
-        contents= promptForListGeneration
-    )
+    for occasion in occasions:
     
-    print("Received response for prompt generation")
+        promptForListGeneration =  """Generate a JSON array of exactly 10 highly detailed image generation prompts for premium {{OCCASION}} greeting visuals, from the perspective of a high-end, stylish women's boutique.
+
+    Aesthetic & Art Style: Emulate a premium greeting-card / editorial-poster aesthetic — fine-line illustration, a soft watercolour wash, delicate flat vector art, or a smooth minimalist gradient backdrop. DO NOT use photorealism, 3D render, stock-photo style, heavy texture, or cluttered scenes. Every image must feel elegant, breathable, and boutique-grade, built around generous negative space. Let the colour palette reflect the mood of {{OCCASION}} (e.g. warm gold and maroon for Diwali, soft pastels for Holi, deep green and red for Christmas, blush and cream for a birthday) but always refined and tasteful, never garish or novelty-looking.
+
+    Motif & Composition: Choose ONE small, symbolic motif tied to {{OCCASION}} (a single diya, a sprig of marigold, a wisp of colour powder, a snowflake, a lit candle, a curl of ribbon, a lotus, a strand of fairy lights, a few confetti flecks, etc.) and place it with deliberate, elegant asymmetry — never centred, crowded, or busy. CRITICAL — DO NOT include any of the following: clothing, garments, mannequins, models, human faces or bodies, shopping bags, store interiors, logos, price tags, or any literal product. This is about mood and feeling, not merchandise — keep every scene plain, simple, and uncluttered.
+
+    Typography & Text (CRITICAL — MINIMAL, NO NAMES): Most of the 10 images should carry NO text at all. Where text does appear, it must be a single short greeting of no more than 4 words (e.g. "Happy Diwali," "Shubh Holi," "Cheers To You") in elegant serif or fine script typography, tucked into the negative space. NEVER render a personal name, the placeholder {{Name}}, a boutique or brand name, a discount, or an offer — every image must stay generic enough to reuse for any customer.
+
+    Variety (NO REPEATS): To keep the 10 images visually distinct from one another, generate them using this exact sequence of visual treatments:
+    1. Macro close-up of the single motif, extreme negative space
+    2. Wide, airy scene with the motif small in one corner
+    3. Abstract repeating pattern derived from the motif, subtle and soft
+    4. Fine-line botanical/linear illustration style
+    5. Soft watercolour wash background, no hard edges
+    6. Delicate flat-lay arrangement of 2-3 symbolic (non-product) objects
+    7. Smooth solid-to-gradient colour field with a single tiny motif
+    8. Fine gold or metallic linework on a muted background
+    9. Soft pastel, dreamy, out-of-focus mood shot
+    10. Bold, graphic, jewel-tone poster composition
+
+    For each of the 10 prompts, briefly specify the exact colour palette, and — only where text is used — the typography style and colour, so it stays crisp and legible against the background.
+
+    Format Rules: Return ONLY a valid JSON array of strings, formatted exactly like this: ["detailed prompt 1", "detailed prompt 2"]. Do NOT wrap the array in objects, do NOT include markdown formatting like ```json, and do NOT include any conversational text.
+
+    Within each string, end with technical tags like: --ar 9:16, premium greeting card design, minimalist boutique campaign, elegant negative space, soft studio lighting, flawless typography, crisp clean linework, 8k resolution, no logos, no clutter."""
+        prompt = promptForListGeneration.replace("{{OCCASION}}", occasion)
+        promptsList=client.models.generate_content(
+            model="gemini-2.5-flash-lite",
+            contents= prompt
+        )
+        
+        print("Received response for prompt generation")
+        
+        process_response=promptsList.text
     
-    process_response=promptsList.text
-   
-    startIndex=process_response.index("[")
-    lastIndex=process_response.rindex("]")
-    prompts=json.loads(process_response[startIndex:lastIndex+1])
+        startIndex=process_response.index("[")
+        lastIndex=process_response.rindex("]")
+        prompts=json.loads(process_response[startIndex:lastIndex+1])
 
 
 
